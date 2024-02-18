@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Company , Department , User , PurchaseRequest , PurchaseItem ,Item , ApproverRequest , Approver , AC , Type , Urgency
+from ..models import Company , Department , User , PurchaseRequest , PurchaseItem ,Item , ApproverRequest , Approver , AC , Type , Urgency
 
 
 class CompanySerializer(serializers.ModelSerializer):

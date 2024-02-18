@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from purchase.models import *
+from project.models import *
 
 
 #class CompanyAdmin(admin.ModelAdmin):
