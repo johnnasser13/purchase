@@ -38,10 +38,11 @@ class Urgency(models.Model):
 
 class PurchaseRequest(models.Model):
     reqID = models.IntegerField(primary_key = True)
-    DpID = models.ForeignKey(Department, related_name='purreq', on_delete=models.CASCADE)
-    userID = models.ForeignKey(User, related_name='purreq', on_delete=models.CASCADE)
-    typeID = models.ForeignKey(Type, related_name='purreq', on_delete=models.CASCADE)
-    urgencyID = models.ForeignKey(Urgency, related_name='purreq', on_delete=models.CASCADE)
+    itemName = models.TextField()
+    urgencyLevel = models.TextField()
+    quantity = models.IntegerField()
+    
+    
 
 
 

@@ -67,7 +67,7 @@ urlpatterns = [
 
 #purchasereq urls
     path('getpurchasereq/', views.get_purchasereq),
-    path('postpurchasereq/', views.add_purchasereq),
+    path('purchasereqnew/', views.add_purchasereq),
     path('updatepurchasereq/<int:pk>/', views.update_purchasereq),
     path('deletepurchasereq/<int:pk>/', views.delete_purchasereq),
 

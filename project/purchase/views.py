@@ -1,11 +1,13 @@
 from urllib import response
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http.response import JsonResponse 
 from ..models import Company , Department , User , PurchaseRequest , PurchaseItem ,Item , ApproverRequest , Approver , AC , Type , Urgency
 from rest_framework.decorators import api_view
 from .serializers import CompanySerializer , DepartmentSerializer , UserSerializer , PurchaseRequestSerializer , PurchaseItemSerializer , ItemSerializer , ApproverRequestSerializer, ApproverSerializer , ACSerializer, TypeSerializer ,UrgencySerializer
-from rest_framework import status , serializers
+from rest_framework import status , serializers, permissions ,viewsets
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+
 
 
 
@@ -191,19 +193,39 @@ def get_purchasereq(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+
+
+#
+
+
 @api_view(['POST'])
-def add_purchasereq(request):
+def add_purchasereq( request):
+     
     purreq = PurchaseRequestSerializer(data=request.data)
- 
-    # validating for already existing data
-    if PurchaseRequest.objects.filter(**request.data).exists():
-        raise serializers.ValidationError('This data already exists')
- 
-    if purreq.is_valid():
+    
+    if purreq.is_valid() :      
         purreq.save()
-        return Response(purreq.data)
+        return Response(purreq.data, status=status.HTTP_201_CREATED)
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        
+    #  if request.method == 'POST':
+    #     itemName = request.POST['itemName']
+    #     quantity = request.POST['quantity']
+    #     urgencyLevel = request.POST['urgencyLevel']
+    #     purchaseRequest = PurchaseRequest.objects.create(itemName=itemName, quantity=quantity, urgencyLevel=urgencyLevel)
+    #     purchaseRequest.save()
+    #     print("success")
+    #     response= {
+    #         'itemName': itemName,
+    #         'quantity': quantity,
+    #         'urgencyLevel': urgencyLevel,
+    #     }
+    #     return Response(response, status=status.HTTP_201_CREATED)
+        
+
+   
 
 
 @api_view(['POST'])

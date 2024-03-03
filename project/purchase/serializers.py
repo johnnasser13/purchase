@@ -22,6 +22,9 @@ class PurchaseRequestSerializer(serializers.ModelSerializer):
         model = PurchaseRequest
         fields = '__all__'
 
+        def create(self, validated_data):
+            return PurchaseRequest.objects.create(**validated_data)
+
 class PurchaseItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = PurchaseItem
