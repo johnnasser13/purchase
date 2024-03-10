@@ -6,58 +6,58 @@ from rest_framework.decorators import api_view
 from .serializers import CompanySerializer , DepartmentSerializer , UserSerializer , PurchaseRequestSerializer , PurchaseItemSerializer , ItemSerializer , ApproverRequestSerializer, ApproverSerializer , ACSerializer, TypeSerializer ,UrgencySerializer
 from rest_framework import status , serializers, permissions ,viewsets
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
 
 
 
 
 
-#company api
-@api_view(['GET'])
-def get_cmp(request):
-    if request.query_params:
-        companies = Company.objects.filter(**request.query_params.dict())
-    else:
-        companies = Company.objects.all()
+# #company api
+# @api_view(['GET'])
+# def get_cmp(request):
+#     if request.query_params:
+#         companies = Company.objects.filter(**request.query_params.dict())
+#     else:
+#         companies = Company.objects.all()
 
-    if companies:
-        serializer = CompanySerializer(companies, many=True)
-        return Response(serializer.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if companies:
+#         serializer = CompanySerializer(companies, many=True)
+#         return Response(serializer.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def add_cmp(request):
-    company = CompanySerializer(data=request.data)
+# @api_view(['POST'])
+# def add_cmp(request):
+#     company = CompanySerializer(data=request.data)
  
-    # validating for already existing data
-    if Company.objects.filter(**request.data).exists():
-        raise serializers.ValidationError('This data already exists')
+#     # validating for already existing data
+#     if Company.objects.filter(**request.data).exists():
+#         raise serializers.ValidationError('This data already exists')
  
-    if company.is_valid():
-        company.save()
-        return Response(company.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if company.is_valid():
+#         company.save()
+#         return Response(company.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def update_cmp(request, pk):
-    company = Company.objects.get(pk=pk)
-    data = CompanySerializer(instance=company, data=request.data)
+# @api_view(['POST'])
+# def update_cmp(request, pk):
+#     company = Company.objects.get(pk=pk)
+#     data = CompanySerializer(instance=company, data=request.data)
  
-    if data.is_valid():
-        data.save()
-        return Response(data.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if data.is_valid():
+#         data.save()
+#         return Response(data.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
     
-@api_view(['DELETE'])
-def delete_cmp(request, pk):
-    company = get_object_or_404(Company, pk=pk)
-    company.delete()
-    return Response(status=status.HTTP_202_ACCEPTED)
+# @api_view(['DELETE'])
+# def delete_cmp(request, pk):
+#     company = get_object_or_404(Company, pk=pk)
+#     company.delete()
+#     return Response(status=status.HTTP_202_ACCEPTED)
 
 
 
@@ -69,52 +69,52 @@ def delete_cmp(request, pk):
 
 
 
-#department api
-@api_view(['GET'])
-def get_dp(request):
-    if request.query_params:
-        departments = Department.objects.filter(**request.query_params.dict())
-    else:
-        departments = Department.objects.all()
+# #department api
+# @api_view(['GET'])
+# def get_dp(request):
+#     if request.query_params:
+#         departments = Department.objects.filter(**request.query_params.dict())
+#     else:
+#         departments = Department.objects.all()
 
-    if departments:
-        serializer = DepartmentSerializer(departments, many=True)
-        return Response(serializer.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if departments:
+#         serializer = DepartmentSerializer(departments, many=True)
+#         return Response(serializer.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def add_dp(request):
-    department = DepartmentSerializer(data=request.data)
+# @api_view(['POST'])
+# def add_dp(request):
+#     department = DepartmentSerializer(data=request.data)
  
-    # validating for already existing data
-    if Department.objects.filter(**request.data).exists():
-        raise serializers.ValidationError('This data already exists')
+#     # validating for already existing data
+#     if Department.objects.filter(**request.data).exists():
+#         raise serializers.ValidationError('This data already exists')
  
-    if department.is_valid():
-        department.save()
-        return Response(department.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if department.is_valid():
+#         department.save()
+#         return Response(department.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def update_dp(request, pk):
-    department = Department.objects.get(pk=pk)
-    data = DepartmentSerializer(instance=department, data=request.data)
+# @api_view(['POST'])
+# def update_dp(request, pk):
+#     department = Department.objects.get(pk=pk)
+#     data = DepartmentSerializer(instance=department, data=request.data)
  
-    if data.is_valid():
-        data.save()
-        return Response(data.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if data.is_valid():
+#         data.save()
+#         return Response(data.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
     
-@api_view(['DELETE'])
-def delete_dp(request, pk):
-    departments = get_object_or_404(Department, pk=pk)
-    departments.delete()
-    return Response(status=status.HTTP_202_ACCEPTED)
+# @api_view(['DELETE'])
+# def delete_dp(request, pk):
+#     departments = get_object_or_404(Department, pk=pk)
+#     departments.delete()
+#     return Response(status=status.HTTP_202_ACCEPTED)
 
 
 
@@ -126,124 +126,140 @@ def delete_dp(request, pk):
 
 
 
-#user api
-@api_view(['GET'])
-def get_user(request):
-    if request.query_params:
-        users = User.objects.filter(**request.query_params.dict())
-    else:
-        users = User.objects.all()
+# #user api
+# @api_view(['GET'])
+# def get_user(request):
+#     if request.query_params:
+#         users = User.objects.filter(**request.query_params.dict())
+#     else:
+#         users = User.objects.all()
 
-    if users:
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if users:
+#         serializer = UserSerializer(users, many=True)
+#         return Response(serializer.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def add_user(request):
-    users = UserSerializer(data=request.data)
+# @api_view(['POST'])
+# def add_user(request):
+#     users = UserSerializer(data=request.data)
  
-    # validating for already existing data
-    if User.objects.filter(**request.data).exists():
-        raise serializers.ValidationError('This data already exists')
+#     # validating for already existing data
+#     if User.objects.filter(**request.data).exists():
+#         raise serializers.ValidationError('This data already exists')
  
-    if users.is_valid():
-        users.save()
-        return Response(users.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if users.is_valid():
+#         users.save()
+#         return Response(users.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def update_user(request, pk):
-    users = User.objects.get(pk=pk)
-    data = UserSerializer(instance=users, data=request.data)
+# @api_view(['POST'])
+# def update_user(request, pk):
+#     users = User.objects.get(pk=pk)
+#     data = UserSerializer(instance=users, data=request.data)
  
-    if data.is_valid():
-        data.save()
-        return Response(data.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if data.is_valid():
+#         data.save()
+#         return Response(data.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
     
-@api_view(['DELETE'])
-def delete_user(request, pk):
-    users = get_object_or_404(User, pk=pk)
-    users.delete()
-    return Response(status=status.HTTP_202_ACCEPTED)
+# @api_view(['DELETE'])
+# def delete_user(request, pk):
+#     users = get_object_or_404(User, pk=pk)
+#     users.delete()
+#     return Response(status=status.HTTP_202_ACCEPTED)
 
 
 
 
+
+
+
+class PurchaseRequestViewSet(viewsets.ModelViewSet):  # Update the class name
+    queryset = PurchaseRequest.objects.all()  # Update the queryset
+    serializer_class = PurchaseRequestSerializer  # Update the serializer class
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 #PurchaseRequest api
-@api_view(['GET'])
-def get_purchasereq(request):
-    if request.query_params:
-        purreq = PurchaseRequest.objects.filter(**request.query_params.dict())
-    else:
-        purreq = PurchaseRequest.objects.all()
+# @api_view(['GET'])
+# def get_purchasereq(request):
+#     if request.query_params:
+#         purreq = PurchaseRequest.objects.filter(**request.query_params.dict())
+#     else:
+#         purreq = PurchaseRequest.objects.all()
 
-    if purreq:
-        serializer = PurchaseRequestSerializer(purreq, many=True)
-        return Response(serializer.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-
+#     if purreq:
+#         serializer = PurchaseRequestSerializer(purreq, many=True)
+#         return Response(serializer.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-#
 
 
-@api_view(['POST'])
-def add_purchasereq( request):
-     
-    purreq = PurchaseRequestSerializer(data=request.data)
+# #
     
-    if purreq.is_valid() :      
-        purreq.save()
-        return Response(purreq.data, status=status.HTTP_201_CREATED)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+# @api_view(['POST'])
+# def newpurchasereq(request):
+#     purreq = PurchaseRequestSerializer(data=request.data)
+ 
+#     if purreq.is_valid():
+#         purreq.save()
+#         return Response(purreq.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
+
         
-        
-    #  if request.method == 'POST':
-    #     itemName = request.POST['itemName']
-    #     quantity = request.POST['quantity']
-    #     urgencyLevel = request.POST['urgencyLevel']
-    #     purchaseRequest = PurchaseRequest.objects.create(itemName=itemName, quantity=quantity, urgencyLevel=urgencyLevel)
-    #     purchaseRequest.save()
-    #     print("success")
-    #     response= {
-    #         'itemName': itemName,
-    #         'quantity': quantity,
-    #         'urgencyLevel': urgencyLevel,
-    #     }
-    #     return Response(response, status=status.HTTP_201_CREATED)
+#     # if request.method == 'POST':
+#     #     itemName = request.POST['itemName']
+#     #     quantity = request.POST['quantity']
+#     #     urgencyLevel = request.POST['urgencyLevel']
+#     #     purchaseRequest = PurchaseRequest.objects.create(itemName=itemName, quantity=quantity, urgencyLevel=urgencyLevel)
+#     #     purchaseRequest.save()
+#     #     print("success")
+#     #     response= {
+#     #         'itemName': itemName,
+#     #         'quantity': quantity,
+#     #         'urgencyLevel': urgencyLevel,
+#     #     }
+#     #     return Response(response, status=status.HTTP_201_CREATED)
         
 
    
 
 
-@api_view(['POST'])
-def update_purchasereq(request, pk):
-    purreq = PurchaseRequest.objects.get(pk=pk)
-    data = PurchaseRequestSerializer(instance=purreq, data=request.data)
+# @api_view(['POST'])
+# def update_purchasereq(request, pk):
+#     purreq = PurchaseRequest.objects.get(pk=pk)
+#     data = PurchaseRequestSerializer(instance=purreq, data=request.data)
  
-    if data.is_valid():
-        data.save()
-        return Response(data.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if data.is_valid():
+#         data.save()
+#         return Response(data.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
     
-@api_view(['DELETE'])
-def delete_purchasereq(request, pk):
-    purreq = get_object_or_404(PurchaseRequest, pk=pk)
-    purreq.delete()
-    return Response(status=status.HTTP_202_ACCEPTED)
+# @api_view(['DELETE'])
+# def delete_purchasereq(request, pk):
+#     purreq = get_object_or_404(PurchaseRequest, pk=pk)
+#     purreq.delete()
+#     return Response(status=status.HTTP_202_ACCEPTED)
 
 
 
@@ -252,155 +268,155 @@ def delete_purchasereq(request, pk):
 
 
 #PurchaseItem
-@api_view(['GET'])
-def get_purchaseitem(request):
-    if request.query_params:
-        puritem = PurchaseItem.objects.filter(**request.query_params.dict())
-    else:
-        puritem = PurchaseItem.objects.all()
+# @api_view(['GET'])
+# def get_purchaseitem(request):
+#     if request.query_params:
+#         puritem = PurchaseItem.objects.filter(**request.query_params.dict())
+#     else:
+#         puritem = PurchaseItem.objects.all()
 
-    if puritem:
-        serializer = PurchaseItemSerializer(puritem, many=True)
-        return Response(serializer.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if puritem:
+#         serializer = PurchaseItemSerializer(puritem, many=True)
+#         return Response(serializer.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def add_purchaseitem(request):
-    puritem = PurchaseItemSerializer(data=request.data)
+# @api_view(['POST'])
+# def add_purchaseitem(request):
+#     puritem = PurchaseItemSerializer(data=request.data)
  
-    # validating for already existing data
-    if PurchaseItem.objects.filter(**request.data).exists():
-        raise serializers.ValidationError('This data already exists')
+#     # validating for already existing data
+#     if PurchaseItem.objects.filter(**request.data).exists():
+#         raise serializers.ValidationError('This data already exists')
  
-    if puritem.is_valid():
-        puritem.save()
-        return Response(puritem.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if puritem.is_valid():
+#         puritem.save()
+#         return Response(puritem.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def update_purchaseitem(request, pk):
-    puritem = PurchaseItem.objects.get(pk=pk)
-    data = PurchaseItemSerializer(instance=puritem, data=request.data)
+# @api_view(['POST'])
+# def update_purchaseitem(request, pk):
+#     puritem = PurchaseItem.objects.get(pk=pk)
+#     data = PurchaseItemSerializer(instance=puritem, data=request.data)
  
-    if data.is_valid():
-        data.save()
-        return Response(data.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if data.is_valid():
+#         data.save()
+#         return Response(data.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
     
-@api_view(['DELETE'])
-def delete_purchaseitem(request, pk):
-    puritem = get_object_or_404(PurchaseItem, pk=pk)
-    puritem.delete()
-    return Response(status=status.HTTP_202_ACCEPTED)
+# @api_view(['DELETE'])
+# def delete_purchaseitem(request, pk):
+#     puritem = get_object_or_404(PurchaseItem, pk=pk)
+#     puritem.delete()
+#     return Response(status=status.HTTP_202_ACCEPTED)
 
 
 
 
 
 
-#Item
-@api_view(['GET'])
-def get_item(request):
-    if request.query_params:
-        items = Item.objects.filter(**request.query_params.dict())
-    else:
-        items = Item.objects.all()
+# #Item
+# @api_view(['GET'])
+# def get_item(request):
+#     if request.query_params:
+#         items = Item.objects.filter(**request.query_params.dict())
+#     else:
+#         items = Item.objects.all()
 
-    if items:
-        serializer = ItemSerializer(items, many=True)
-        return Response(serializer.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if items:
+#         serializer = ItemSerializer(items, many=True)
+#         return Response(serializer.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def add_item(request):
-    items = ItemSerializer(data=request.data)
+# @api_view(['POST'])
+# def add_item(request):
+#     items = ItemSerializer(data=request.data)
  
-    # validating for already existing data
-    if Item.objects.filter(**request.data).exists():
-        raise serializers.ValidationError('This data already exists')
+#     # validating for already existing data
+#     if Item.objects.filter(**request.data).exists():
+#         raise serializers.ValidationError('This data already exists')
  
-    if items.is_valid():
-        items.save()
-        return Response(items.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if items.is_valid():
+#         items.save()
+#         return Response(items.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def update_item(request, pk):
-    items = Item.objects.get(pk=pk)
-    data = ItemSerializer(instance=items, data=request.data)
+# @api_view(['POST'])
+# def update_item(request, pk):
+#     items = Item.objects.get(pk=pk)
+#     data = ItemSerializer(instance=items, data=request.data)
  
-    if data.is_valid():
-        data.save()
-        return Response(data.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if data.is_valid():
+#         data.save()
+#         return Response(data.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
     
-@api_view(['DELETE'])
-def delete_item(request, pk):
-    items = get_object_or_404(Department, pk=pk)
-    items.delete()
-    return Response(status=status.HTTP_202_ACCEPTED)
+# @api_view(['DELETE'])
+# def delete_item(request, pk):
+#     items = get_object_or_404(Department, pk=pk)
+#     items.delete()
+#     return Response(status=status.HTTP_202_ACCEPTED)
 
 
 
 
 
 
-#ApproverRequest
-@api_view(['GET'])
-def get_appreq(request):
-    if request.query_params:
-        appreq = ApproverRequest.objects.filter(**request.query_params.dict())
-    else:
-        appreq = ApproverRequest.objects.all()
+# #ApproverRequest
+# @api_view(['GET'])
+# def get_appreq(request):
+#     if request.query_params:
+#         appreq = ApproverRequest.objects.filter(**request.query_params.dict())
+#     else:
+#         appreq = ApproverRequest.objects.all()
 
-    if appreq:
-        serializer = ApproverRequestSerializer(appreq, many=True)
-        return Response(serializer.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if appreq:
+#         serializer = ApproverRequestSerializer(appreq, many=True)
+#         return Response(serializer.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def add_appreq(request):
-    appreq = ApproverRequestSerializer(data=request.data)
+# @api_view(['POST'])
+# def add_appreq(request):
+#     appreq = ApproverRequestSerializer(data=request.data)
  
-    # validating for already existing data
-    if ApproverRequest.objects.filter(**request.data).exists():
-        raise serializers.ValidationError('This data already exists')
+#     # validating for already existing data
+#     if ApproverRequest.objects.filter(**request.data).exists():
+#         raise serializers.ValidationError('This data already exists')
  
-    if appreq.is_valid():
-        appreq.save()
-        return Response(appreq.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if appreq.is_valid():
+#         appreq.save()
+#         return Response(appreq.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def update_appreq(request, pk):
-    appreq = ApproverRequest.objects.get(pk=pk)
-    data = ApproverRequestSerializer(instance=appreq, data=request.data)
+# @api_view(['POST'])
+# def update_appreq(request, pk):
+#     appreq = ApproverRequest.objects.get(pk=pk)
+#     data = ApproverRequestSerializer(instance=appreq, data=request.data)
  
-    if data.is_valid():
-        data.save()
-        return Response(data.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if data.is_valid():
+#         data.save()
+#         return Response(data.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
     
-@api_view(['DELETE'])
-def delete_appreq(request, pk):
-    appreq = get_object_or_404(ApproverRequest, pk=pk)
-    appreq.delete()
-    return Response(status=status.HTTP_202_ACCEPTED)
+# @api_view(['DELETE'])
+# def delete_appreq(request, pk):
+#     appreq = get_object_or_404(ApproverRequest, pk=pk)
+#     appreq.delete()
+#     return Response(status=status.HTTP_202_ACCEPTED)
 
 
 
@@ -408,208 +424,208 @@ def delete_appreq(request, pk):
 
 
 
-#Approver
-@api_view(['GET'])
-def get_approver(request):
-    if request.query_params:
-        approver = Approver.objects.filter(**request.query_params.dict())
-    else:
-        approver = Approver.objects.all()
+# #Approver
+# @api_view(['GET'])
+# def get_approver(request):
+#     if request.query_params:
+#         approver = Approver.objects.filter(**request.query_params.dict())
+#     else:
+#         approver = Approver.objects.all()
 
-    if approver:
-        serializer = ApproverSerializer(approver, many=True)
-        return Response(serializer.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if approver:
+#         serializer = ApproverSerializer(approver, many=True)
+#         return Response(serializer.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def add_approver(request):
-    approver = ApproverSerializer(data=request.data)
+# @api_view(['POST'])
+# def add_approver(request):
+#     approver = ApproverSerializer(data=request.data)
  
-    # validating for already existing data
-    if Approver.objects.filter(**request.data).exists():
-        raise serializers.ValidationError('This data already exists')
+#     # validating for already existing data
+#     if Approver.objects.filter(**request.data).exists():
+#         raise serializers.ValidationError('This data already exists')
  
-    if approver.is_valid():
-        approver.save()
-        return Response(approver.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if approver.is_valid():
+#         approver.save()
+#         return Response(approver.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def update_approver(request, pk):
-    approver = Approver.objects.get(pk=pk)
-    data = ApproverSerializer(instance=approver, data=request.data)
+# @api_view(['POST'])
+# def update_approver(request, pk):
+#     approver = Approver.objects.get(pk=pk)
+#     data = ApproverSerializer(instance=approver, data=request.data)
  
-    if data.is_valid():
-        data.save()
-        return Response(data.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if data.is_valid():
+#         data.save()
+#         return Response(data.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
     
-@api_view(['DELETE'])
-def delete_approver(request, pk):
-    approver = get_object_or_404(Approver, pk=pk)
-    approver.delete()
-    return Response(status=status.HTTP_202_ACCEPTED)
+# @api_view(['DELETE'])
+# def delete_approver(request, pk):
+#     approver = get_object_or_404(Approver, pk=pk)
+#     approver.delete()
+#     return Response(status=status.HTTP_202_ACCEPTED)
 
 
 
 
 
 
-#AC
-@api_view(['GET'])
-def get_ac(request):
-    if request.query_params:
-        ac = AC.objects.filter(**request.query_params.dict())
-    else:
-        ac = AC.objects.all()
+# #AC
+# @api_view(['GET'])
+# def get_ac(request):
+#     if request.query_params:
+#         ac = AC.objects.filter(**request.query_params.dict())
+#     else:
+#         ac = AC.objects.all()
 
-    if ac:
-        serializer = ACSerializer(ac, many=True)
-        return Response(serializer.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if ac:
+#         serializer = ACSerializer(ac, many=True)
+#         return Response(serializer.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def add_ac(request):
-    ac = ACSerializer(data=request.data)
+# @api_view(['POST'])
+# def add_ac(request):
+#     ac = ACSerializer(data=request.data)
  
-    # validating for already existing data
-    if AC.objects.filter(**request.data).exists():
-        raise serializers.ValidationError('This data already exists')
+#     # validating for already existing data
+#     if AC.objects.filter(**request.data).exists():
+#         raise serializers.ValidationError('This data already exists')
  
-    if ac.is_valid():
-        ac.save()
-        return Response(ac.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if ac.is_valid():
+#         ac.save()
+#         return Response(ac.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def update_ac(request, pk):
-    ac = AC.objects.get(pk=pk)
-    data = ACSerializer(instance=ac, data=request.data)
+# @api_view(['POST'])
+# def update_ac(request, pk):
+#     ac = AC.objects.get(pk=pk)
+#     data = ACSerializer(instance=ac, data=request.data)
  
-    if data.is_valid():
-        data.save()
-        return Response(data.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if data.is_valid():
+#         data.save()
+#         return Response(data.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
     
-@api_view(['DELETE'])
-def delete_ac(request, pk):
-    ac = get_object_or_404(AC, pk=pk)
-    ac.delete()
-    return Response(status=status.HTTP_202_ACCEPTED)
+# @api_view(['DELETE'])
+# def delete_ac(request, pk):
+#     ac = get_object_or_404(AC, pk=pk)
+#     ac.delete()
+#     return Response(status=status.HTTP_202_ACCEPTED)
 
 
 
 
 
 
-#Type
-@api_view(['GET'])
-def get_type(request):
-    if request.query_params:
-        type = Type.objects.filter(**request.query_params.dict())
-    else:
-        type = Type.objects.all()
+# #Type
+# @api_view(['GET'])
+# def get_type(request):
+#     if request.query_params:
+#         type = Type.objects.filter(**request.query_params.dict())
+#     else:
+#         type = Type.objects.all()
 
-    if type:
-        serializer = TypeSerializer(type, many=True)
-        return Response(serializer.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if type:
+#         serializer = TypeSerializer(type, many=True)
+#         return Response(serializer.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def add_type(request):
-    type = TypeSerializer(data=request.data)
+# @api_view(['POST'])
+# def add_type(request):
+#     type = TypeSerializer(data=request.data)
  
-    # validating for already existing data
-    if Type.objects.filter(**request.data).exists():
-        raise serializers.ValidationError('This data already exists')
+#     # validating for already existing data
+#     if Type.objects.filter(**request.data).exists():
+#         raise serializers.ValidationError('This data already exists')
  
-    if type.is_valid():
-        type.save()
-        return Response(type.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if type.is_valid():
+#         type.save()
+#         return Response(type.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def update_type(request, pk):
-    type = Type.objects.get(pk=pk)
-    data = TypeSerializer(instance=type, data=request.data)
+# @api_view(['POST'])
+# def update_type(request, pk):
+#     type = Type.objects.get(pk=pk)
+#     data = TypeSerializer(instance=type, data=request.data)
  
-    if data.is_valid():
-        data.save()
-        return Response(data.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if data.is_valid():
+#         data.save()
+#         return Response(data.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
     
-@api_view(['DELETE'])
-def delete_type(request, pk):
-    type = get_object_or_404(Type, pk=pk)
-    type.delete()
-    return Response(status=status.HTTP_202_ACCEPTED)
+# @api_view(['DELETE'])
+# def delete_type(request, pk):
+#     type = get_object_or_404(Type, pk=pk)
+#     type.delete()
+#     return Response(status=status.HTTP_202_ACCEPTED)
 
 
 
 
 
 
-#urgency api
-@api_view(['GET'])
-def get_urgency(request):
-    if request.query_params:
-        urgency = Urgency.objects.filter(**request.query_params.dict())
-    else:
-        urgency = Urgency.objects.all()
+# #urgency api
+# @api_view(['GET'])
+# def get_urgency(request):
+#     if request.query_params:
+#         urgency = Urgency.objects.filter(**request.query_params.dict())
+#     else:
+#         urgency = Urgency.objects.all()
 
-    if urgency:
-        serializer = UrgencySerializer(urgency, many=True)
-        return Response(serializer.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if urgency:
+#         serializer = UrgencySerializer(urgency, many=True)
+#         return Response(serializer.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def add_urgency(request):
-    urgency = UrgencySerializer(data=request.data)
+# @api_view(['POST'])
+# def add_urgency(request):
+#     urgency = UrgencySerializer(data=request.data)
  
-    # validating for already existing data
-    if Urgency.objects.filter(**request.data).exists():
-        raise serializers.ValidationError('This data already exists')
+#     # validating for already existing data
+#     if Urgency.objects.filter(**request.data).exists():
+#         raise serializers.ValidationError('This data already exists')
  
-    if urgency.is_valid():
-        urgency.save()
-        return Response(urgency.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if urgency.is_valid():
+#         urgency.save()
+#         return Response(urgency.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
-def update_urgency(request, pk):
-    urgency = Urgency.objects.get(pk=pk)
-    data = UrgencySerializer(instance=urgency, data=request.data)
+# @api_view(['POST'])
+# def update_urgency(request, pk):
+#     urgency = Urgency.objects.get(pk=pk)
+#     data = UrgencySerializer(instance=urgency, data=request.data)
  
-    if data.is_valid():
-        data.save()
-        return Response(data.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#     if data.is_valid():
+#         data.save()
+#         return Response(data.data)
+#     else:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
     
-@api_view(['DELETE'])
-def delete_urgency(request, pk):
-    urgency = get_object_or_404(Urgency, pk=pk)
-    urgency.delete()
-    return Response(status=status.HTTP_202_ACCEPTED)
+# @api_view(['DELETE'])
+# def delete_urgency(request, pk):
+#     urgency = get_object_or_404(Urgency, pk=pk)
+#     urgency.delete()
+#     return Response(status=status.HTTP_202_ACCEPTED)
 
 
 

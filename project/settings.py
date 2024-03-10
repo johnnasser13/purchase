@@ -50,7 +50,10 @@ CORS_ALLOW_HEADERS = (
 )
 
 
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    # Add any other origins that need to be allowed
+]
 # Application definition
 
 INSTALLED_APPS = [
